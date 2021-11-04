@@ -1,7 +1,6 @@
 import { createContext, ReactNode, useContext, useState } from "react";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
-import { toast } from "react-toastify";
 
 interface ChildrenProps {
   children: ReactNode;
@@ -28,15 +27,13 @@ export const AuthProvider = ({ children }: ChildrenProps) => {
   );
 
   const signIn = (userData: UserDataProps) => {
-    console.log(userData);
-
     axios
       .post("https://lanchonete-do-victor.herokuapp.com/login/", userData)
-      .then((response) => {
-        console.log(response);
-        localStorage.setItem("token", response.data.token);
-        setAuthToken(response.data.token);
-        history.push("/");
+      .then(({ data }) => {
+        localStorage.setItem("token", data.accessToken);
+        setAuthToken(data.accessToken);
+        alert("Login feito!");
+        history.push("/home");
       })
       .catch((error) => alert("Usuário não cadastrado"));
   };

@@ -47,7 +47,10 @@ const RegisterPage = ({
   } = useForm({ resolver: yupResolver(schema) });
 
   const handleMyForm = (data: DataProps) => {
-    axios.post("https://lanchonete-do-victor.herokuapp.com/register", data);
+    axios
+      .post("https://lanchonete-do-victor.herokuapp.com/register/", data)
+      .then((_) => alert("Cadastro feito. Faça login em sua conta!"))
+      .catch((error) => alert("Cadastro não feito"));
 
     history.push("/");
   };
@@ -64,7 +67,7 @@ const RegisterPage = ({
           <button type="submit">Cadastrar</button>
         </FormContainer>
         <LoginContainer>
-          <button>Voltar para login</button>
+          <button onClick={() => history.push("/")}>Voltar para login</button>
         </LoginContainer>
       </RegisterContainer>
     </Container>
